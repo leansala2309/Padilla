@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Historial</title>
+</head>
+<body>
+    <h1>Historial de transacciones</h1>
+    <table border="1">
+        <tr>
+            <th>Fecha</th>
+            <th>Producto</th>
+            <th>Tipo</th>
+            <th>Cantidad</th>
+        </tr>
+        {% for tx in transactions %}
+        <tr>
+            <td>{{ tx.timestamp }}</td>
+            <td>{{ tx.product.name }}</td>
+            <td>{{ 'Ingreso' if tx.type == 'IN' else 'Egreso' }}</td>
+            <td>{{ tx.quantity }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{{ url_for('index') }}">Volver</a>
+</body>
+</html>

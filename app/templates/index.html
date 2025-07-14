@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Pañol</title>
+</head>
+<body>
+    <h1>Inventario</h1>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
+
+    <h2>Agregar producto</h2>
+    <form action="{{ url_for('add_product') }}" method="post">
+        <input name="barcode" placeholder="Codigo de barras" required>
+        <input name="name" placeholder="Nombre" required>
+        <input name="minimum" placeholder="Minimo" type="number" min="0" value="0">
+        <button type="submit">Agregar</button>
+    </form>
+
+    <h2>Ingreso / Egreso</h2>
+    <form action="{{ url_for('transaction') }}" method="post">
+        <input name="barcode" placeholder="Codigo de barras" required>
+        <input name="quantity" placeholder="Cantidad" type="number" min="1" required>
+        <select name="type">
+            <option value="IN">Ingreso</option>
+            <option value="OUT">Egreso</option>
+        </select>
+        <button type="submit">Registrar</button>
+    </form>
+
+    <h2>Productos</h2>
+    <table border="1">
+        <tr>
+            <th>Codigo</th>
+            <th>Nombre</th>
+            <th>Stock</th>
+            <th>Minimo</th>
+        </tr>
+        {% for p in products %}
+        <tr {% if p in low_stock %}style="background-color:#ffcccc"{% endif %}>
+            <td>{{ p.barcode }}</td>
+            <td>{{ p.name }}</td>
+            <td>{{ p.stock }}</td>
+            <td>{{ p.minimum }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="{{ url_for('history') }}">Historial</a>
+</body>
+</html>
