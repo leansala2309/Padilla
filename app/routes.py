@@ -2,7 +2,6 @@ from flask import render_template, request, redirect, url_for, flash
 from . import app, db
 from .models import Product, Transaction
 
-@app.before_first_request
 def create_tables():
     db.create_all()
 
